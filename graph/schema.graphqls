@@ -1,0 +1,78 @@
+type Game {
+  id: ID!
+  player1: String!
+  player2: String!
+  player3: String!
+  player4: String!
+  score12: Int!
+  score34: Int!
+  createdBy: String!
+}
+
+type Player {
+  username: String!
+  careerWin: Int!
+  careerPlayed: Int!
+  goldMedals: Int!
+  silverMedals: Int!
+  bronzeMedals: Int!
+  color: String!
+  isAdmin: Int!
+  teammates: [Teammate!]!
+}
+
+type Teammate {
+  username: String!
+  gamesTogether: Int!
+  winTogether: Int!
+  gamesAgainst: Int!
+  winAgainst: Int!
+}
+
+type Standing {
+  username: String!
+  win: Int!
+  played: Int!
+  elo: Int!
+}
+
+type Query {
+  games(latest: Int): [Game!]!
+  players(username: String): [Player!]!
+  standings: [Standing!]!
+}
+
+input NewGame {
+  player1: String!
+  player2: String!
+  player3: String!
+  player4: String!
+  score12: Int!
+  score34: Int!
+}
+
+input DeleteGame {
+  id: String!
+}
+
+input RefreshTokenInput{
+  token: String!
+}
+
+input NewUser {
+  username: String!
+  password: String!
+}
+
+input Login {
+  username: String!
+  password: String!
+}
+
+type Mutation {
+  createGame(input: NewGame!): Game!
+  deleteGame(input: DeleteGame!): String!
+  createUser(input: NewUser!): String!
+  login(input: Login!): String!
+  refreshToken(input: RefreshTokenInput!): String!
+}
