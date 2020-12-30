@@ -30,6 +30,10 @@ func SubscribeUser(username string) (string, error) {
 }
 
 func Update (winners [2]string, losers [2]string) error {
+
+	var winnersWinProbability float64
+	const k = 10
+
 	w1, err := Get(winners[0])
 	w2, err := Get(winners[1])
 	l1, err := Get(losers[0])
@@ -37,8 +41,6 @@ func Update (winners [2]string, losers [2]string) error {
 	if err != nil {
 		log.Panic(err)
 	}
-	var winnersWinProbability float64
-	const k = 20
 
 	elo1 := math.Round(float64((w1.Elo + w2.Elo) / 2))
 	elo2 := math.Round(float64((l1.Elo + l2.Elo) / 2))
