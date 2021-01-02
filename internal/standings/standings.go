@@ -29,7 +29,7 @@ func SubscribeUser(username string) (string, error) {
 	return username, err
 }
 
-func Update (winners [2]string, losers [2]string) error {
+func Update (winners [2]string, losers [2]string) (int, error) {
 
 	var winnersWinProbability float64
 	const k = 10
@@ -84,7 +84,7 @@ func Update (winners [2]string, losers [2]string) error {
 	err = addLose(losers[0])
 	err = addLose(losers[1])
 
-	return err
+	return delta, err
 }
 
 

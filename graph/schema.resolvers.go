@@ -35,7 +35,7 @@ func (r *mutationResolver) CreateGame(ctx context.Context, input model.NewGame) 
 	game.Player3 = input.Player3
 	game.Player4 = input.Player4
 	game.CreatedBy = user.Username
-	id := game.Save()
+	id, delta := game.Save()
 
 	return &model.Game{
 		ID:        id,
@@ -46,6 +46,7 @@ func (r *mutationResolver) CreateGame(ctx context.Context, input model.NewGame) 
 		Score12:   game.Score12,
 		Score34:   game.Score34,
 		CreatedBy: game.CreatedBy,
+		DeltaPoints: delta,
 	}, nil
 }
 
@@ -96,7 +97,7 @@ func (r *mutationResolver) RefreshToken(ctx context.Context, input model.Refresh
 	return token, nil
 }
 
-func (r *queryResolver) Games(ctx context.Context, latest *int) ([]*model.Game, error) {
+func (r *queryResolver) Games(ctx context.Context, latest *int, player *string) ([]*model.Game, error) {
 	user := auth.ForContext(ctx)
 	if user == nil {
 		return []*model.Game{}, fmt.Errorf("access denied")
@@ -105,25 +106,31 @@ func (r *queryResolver) Games(ctx context.Context, latest *int) ([]*model.Game, 
 	var gamesResult []*model.Game
 	var gameList []*games.Game
 
-	if latest == nil {
-		gameList = games.GetAll()
-	} else {
-		gameList = games.GetLatest(int64(*latest))
+	nLatest := 0
+	playerName := ""
+
+	if latest != nil {
+		nLatest = *latest
+	}
+	if player != nil {
+		playerName = *player
 	}
 
+	gameList = games.Get(int64(nLatest), playerName)
 
 	for _, game := range gameList {
 		gamesResult = append(
 			gamesResult,
 			&model.Game{
-				ID:        game.ID,
-				Player1:   game.Player1,
-				Player2:   game.Player2,
-				Player3:   game.Player3,
-				Player4:   game.Player4,
-				Score12:   game.Score12,
-				Score34:   game.Score34,
-				CreatedBy: game.CreatedBy,
+				ID:        		game.ID,
+				Player1:   		game.Player1,
+				Player2:   		game.Player2,
+				Player3:   		game.Player3,
+				Player4:   		game.Player4,
+				Score12:   		game.Score12,
+				Score34:   		game.Score34,
+				CreatedBy: 		game.CreatedBy,
+				DeltaPoints:	game.DeltaPoints,
 			},
 		)
 	}
@@ -131,7 +138,6 @@ func (r *queryResolver) Games(ctx context.Context, latest *int) ([]*model.Game, 
 }
 
 func (r *queryResolver) Players(ctx context.Context, username *string) ([]*model.Player, error) {
-
 	user := auth.ForContext(ctx)
 	if user == nil {
 		return []*model.Player{}, fmt.Errorf("access denied")

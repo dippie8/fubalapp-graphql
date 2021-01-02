@@ -7,6 +7,7 @@ type Game {
   score12: Int!
   score34: Int!
   createdBy: String!
+  deltaPoints: Int!
 }
 
 type Player {
@@ -37,7 +38,7 @@ type Standing {
 }
 
 type Query {
-  games(latest: Int): [Game!]!
+  games(latest: Int, player: String): [Game!]!
   players(username: String): [Player!]!
   standings: [Standing!]!
 }

@@ -21,7 +21,13 @@
   <component name="ChangeListManager">
     <list default="true" id="86ee0183-2e3a-4901-bf01-bca680b8a689" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph/generated/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/graph/generated/generated.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph/model/models_gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/graph/model/models_gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph/schema.graphqls" beforeDir="false" afterPath="$PROJECT_DIR$/graph/schema.graphqls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph/schema.resolvers.go" beforeDir="false" afterPath="$PROJECT_DIR$/graph/schema.resolvers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/games/games.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/games/games.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/standings/standings.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/standings/standings.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/jwt/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/jwt/jwt.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +83,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -106,9 +113,9 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="451" y="188" width="1007" height="737" key="SettingsEditor/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1609182024159" />
-    <state x="656" y="258" width="607" height="590" key="find.popup" timestamp="1609109930197">
+    <state x="656" y="258" width="607" height="590" key="find.popup" timestamp="1609434442105">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="656" y="258" width="607" height="590" key="find.popup/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1609109930197" />
+    <state x="656" y="258" width="607" height="590" key="find.popup/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1609434442105" />
   </component>
 </project>

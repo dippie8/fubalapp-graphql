@@ -44,14 +44,15 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Game struct {
-		CreatedBy func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Player1   func(childComplexity int) int
-		Player2   func(childComplexity int) int
-		Player3   func(childComplexity int) int
-		Player4   func(childComplexity int) int
-		Score12   func(childComplexity int) int
-		Score34   func(childComplexity int) int
+		CreatedBy   func(childComplexity int) int
+		DeltaPoints func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Player1     func(childComplexity int) int
+		Player2     func(childComplexity int) int
+		Player3     func(childComplexity int) int
+		Player4     func(childComplexity int) int
+		Score12     func(childComplexity int) int
+		Score34     func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -75,7 +76,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Games     func(childComplexity int, latest *int) int
+		Games     func(childComplexity int, latest *int, player *string) int
 		Players   func(childComplexity int, username *string) int
 		Standings func(childComplexity int) int
 	}
@@ -104,7 +105,7 @@ type MutationResolver interface {
 	RefreshToken(ctx context.Context, input model.RefreshTokenInput) (string, error)
 }
 type QueryResolver interface {
-	Games(ctx context.Context, latest *int) ([]*model.Game, error)
+	Games(ctx context.Context, latest *int, player *string) ([]*model.Game, error)
 	Players(ctx context.Context, username *string) ([]*model.Player, error)
 	Standings(ctx context.Context) ([]*model.Standing, error)
 }
@@ -130,6 +131,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Game.CreatedBy(childComplexity), true
+
+	case "Game.deltaPoints":
+		if e.complexity.Game.DeltaPoints == nil {
+			break
+		}
+
+		return e.complexity.Game.DeltaPoints(childComplexity), true
 
 	case "Game.id":
 		if e.complexity.Game.ID == nil {
@@ -313,7 +321,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Games(childComplexity, args["latest"].(*int)), true
+		return e.complexity.Query.Games(childComplexity, args["latest"].(*int), args["player"].(*string)), true
 
 	case "Query.players":
 		if e.complexity.Query.Players == nil {
@@ -470,6 +478,7 @@ var sources = []*ast.Source{
   score12: Int!
   score34: Int!
   createdBy: String!
+  deltaPoints: Int!
 }
 
 type Player {
@@ -500,7 +509,7 @@ type Standing {
 }
 
 type Query {
-  games(latest: Int): [Game!]!
+  games(latest: Int, player: String): [Game!]!
   players(username: String): [Player!]!
   standings: [Standing!]!
 }
@@ -648,6 +657,15 @@ func (ec *executionContext) field_Query_games_args(ctx context.Context, rawArgs 
 		}
 	}
 	args["latest"] = arg0
+	var arg1 *string
+	if tmp, ok := rawArgs["player"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("player"))
+		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["player"] = arg1
 	return args, nil
 }
 
@@ -982,6 +1000,41 @@ func (ec *executionContext) _Game_createdBy(ctx context.Context, field graphql.C
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Game_deltaPoints(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Game",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeltaPoints, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createGame(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1534,7 +1587,7 @@ func (ec *executionContext) _Query_games(ctx context.Context, field graphql.Coll
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Games(rctx, args["latest"].(*int))
+		return ec.resolvers.Query().Games(rctx, args["latest"].(*int), args["player"].(*string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3313,6 +3366,11 @@ func (ec *executionContext) _Game(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "createdBy":
 			out.Values[i] = ec._Game_createdBy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "deltaPoints":
+			out.Values[i] = ec._Game_deltaPoints(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}

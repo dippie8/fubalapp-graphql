@@ -21,15 +21,11 @@ type Game struct {
 	Score12 	int    	`json:"score12"`
 	Score34 	int    	`json:"score34"`
 	CreatedBy	string	`json:"createdBy"`
+	DeltaPoints int		`json:"deltaPoints"`
 }
 
-func (game Game) Save() string {
+func (game Game) Save() (string, int) {
 	collection := database.Db.Database("qlsr").Collection("games")
-	insertResult, err := collection.InsertOne(context.TODO(), game)
-
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	// update classifica
 	var winners [2]string
@@ -43,8 +39,12 @@ func (game Game) Save() string {
 		losers = [2]string{game.Player1, game.Player2}
 	}
 
-	err = standings.Update(winners, losers)
-
+	delta, err := standings.Update(winners, losers)
+	if err != nil {
+		log.Fatal(err)
+	}
+	game.DeltaPoints = delta
+	insertResult, err := collection.InsertOne(context.TODO(), game)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -55,14 +55,15 @@ func (game Game) Save() string {
 		log.Fatal(err)
 	}
 
-
 	id := fmt.Sprintf("%s", insertResult.InsertedID)
-	return id
+	return id, delta
 }
 
 func GetAll() []*Game {
 	collection := database.Db.Database("qlsr").Collection("games")
-	cursor, err := collection.Find(context.TODO(), bson.D{})
+	findOptions := options.Find()
+	findOptions.SetSort(bson.D{{"_id", -1}})
+	cursor, err := collection.Find(context.TODO(), bson.D{}, findOptions)
 	var games []*Game
 
 	if err != nil {
@@ -83,11 +84,28 @@ func GetAll() []*Game {
 	return games
 }
 
-func GetLatest(n int64) []*Game {
+func Get(n int64, p string) []*Game {
 	collection := database.Db.Database("qlsr").Collection("games")
-	filter := bson.D{}
+	filter := bson.M{}
 	findOptions := options.Find()
-	findOptions.SetSort(bson.D{{"_id", -1}}).SetLimit(n)
+
+	if n != 0 {
+		findOptions.SetSort(bson.D{{"_id", -1}}).SetLimit(n)
+	} else {
+		findOptions.SetSort(bson.D{{"_id", -1}})
+	}
+	if p != "" {
+		//opzione filtro su giocatore
+		filter = bson.M{
+			"$or": []bson.M{
+				bson.M{"player1": p},
+				bson.M{"player2": p},
+				bson.M{"player3": p},
+				bson.M{"player4": p},
+			},
+		}
+	}
+
 	cursor, err := collection.Find(context.TODO(), filter, findOptions)
 	var games []*Game
 
