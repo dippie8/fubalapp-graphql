@@ -471,10 +471,10 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 var sources = []*ast.Source{
 	{Name: "graph/schema.graphqls", Input: `type Game {
   id: ID!
-  player1: String!
-  player2: String!
-  player3: String!
-  player4: String!
+  player1: Player!
+  player2: Player!
+  player3: Player!
+  player4: Player!
   score12: Int!
   score34: Int!
   createdBy: String!
@@ -787,9 +787,9 @@ func (ec *executionContext) _Game_player1(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*model.Player)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNPlayer2ᚖfubalappᚑgraphqlᚋgraphᚋmodelᚐPlayer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Game_player2(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
@@ -822,9 +822,9 @@ func (ec *executionContext) _Game_player2(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*model.Player)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNPlayer2ᚖfubalappᚑgraphqlᚋgraphᚋmodelᚐPlayer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Game_player3(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
@@ -857,9 +857,9 @@ func (ec *executionContext) _Game_player3(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*model.Player)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNPlayer2ᚖfubalappᚑgraphqlᚋgraphᚋmodelᚐPlayer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Game_player4(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
@@ -892,9 +892,9 @@ func (ec *executionContext) _Game_player4(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*model.Player)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNPlayer2ᚖfubalappᚑgraphqlᚋgraphᚋmodelᚐPlayer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Game_score12(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {

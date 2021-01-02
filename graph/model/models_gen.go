@@ -8,10 +8,10 @@ type DeleteGame struct {
 
 type Game struct {
 	ID        	string `bson:"_id"`
-	Player1     string `json:"player1"`
-	Player2     string `json:"player2"`
-	Player3     string `json:"player3"`
-	Player4     string `json:"player4"`
+	Player1     *Player `json:"player1"`
+	Player2     *Player `json:"player2"`
+	Player3     *Player `json:"player3"`
+	Player4     *Player `json:"player4"`
 	Score12     int    `json:"score12"`
 	Score34     int    `json:"score34"`
 	CreatedBy   string `json:"createdBy"`

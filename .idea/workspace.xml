@@ -25,9 +25,6 @@
       <change beforePath="$PROJECT_DIR$/graph/model/models_gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/graph/model/models_gen.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graph/schema.graphqls" beforeDir="false" afterPath="$PROJECT_DIR$/graph/schema.graphqls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graph/schema.resolvers.go" beforeDir="false" afterPath="$PROJECT_DIR$/graph/schema.resolvers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/games/games.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/games/games.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/standings/standings.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/standings/standings.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/jwt/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/jwt/jwt.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +40,11 @@
   </component>
   <component name="GOROOT" path="/usr/local/go" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GoLibraries">

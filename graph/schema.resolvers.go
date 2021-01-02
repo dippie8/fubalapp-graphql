@@ -37,15 +37,16 @@ func (r *mutationResolver) CreateGame(ctx context.Context, input model.NewGame) 
 	game.CreatedBy = user.Username
 	id, delta := game.Save()
 
+
 	return &model.Game{
-		ID:        id,
-		Player1:   game.Player1,
-		Player2:   game.Player2,
-		Player3:   game.Player3,
-		Player4:   game.Player4,
-		Score12:   game.Score12,
-		Score34:   game.Score34,
-		CreatedBy: game.CreatedBy,
+		ID:          id,
+		Player1:     &model.Player{Username: game.Player1},
+		Player2:     &model.Player{Username: game.Player2},
+		Player3:     &model.Player{Username: game.Player3},
+		Player4:     &model.Player{Username: game.Player4},
+		Score12:     game.Score12,
+		Score34:     game.Score34,
+		CreatedBy:   game.CreatedBy,
 		DeltaPoints: delta,
 	}, nil
 }
@@ -119,18 +120,72 @@ func (r *queryResolver) Games(ctx context.Context, latest *int, player *string) 
 	gameList = games.Get(int64(nLatest), playerName)
 
 	for _, game := range gameList {
+
+		player1, _ := players.Get(game.Player1)
+		player2, _ := players.Get(game.Player2)
+		player3, _ := players.Get(game.Player3)
+		player4, _ := players.Get(game.Player4)
+
+		player1Model := &model.Player{
+			Username:     player1.Username,
+			CareerWin:    player1.CareerWin,
+			CareerPlayed: player1.CareerPlayed,
+			GoldMedals:   player1.GoldMedals,
+			SilverMedals: player1.SilverMedals,
+			BronzeMedals: player1.BronzeMedals,
+			Color:        player1.Color,
+			IsAdmin:      player1.IsAdmin,
+			Teammates:    nil,
+		}
+
+		player2Model := &model.Player{
+			Username:     player2.Username,
+			CareerWin:    player2.CareerWin,
+			CareerPlayed: player2.CareerPlayed,
+			GoldMedals:   player2.GoldMedals,
+			SilverMedals: player2.SilverMedals,
+			BronzeMedals: player2.BronzeMedals,
+			Color:        player2.Color,
+			IsAdmin:      player2.IsAdmin,
+			Teammates:    nil,
+		}
+
+		player3Model := &model.Player{
+			Username:     player3.Username,
+			CareerWin:    player3.CareerWin,
+			CareerPlayed: player3.CareerPlayed,
+			GoldMedals:   player3.GoldMedals,
+			SilverMedals: player3.SilverMedals,
+			BronzeMedals: player3.BronzeMedals,
+			Color:        player3.Color,
+			IsAdmin:      player3.IsAdmin,
+			Teammates:    nil,
+		}
+
+		player4Model := &model.Player{
+			Username:     player4.Username,
+			CareerWin:    player4.CareerWin,
+			CareerPlayed: player4.CareerPlayed,
+			GoldMedals:   player4.GoldMedals,
+			SilverMedals: player4.SilverMedals,
+			BronzeMedals: player4.BronzeMedals,
+			Color:        player4.Color,
+			IsAdmin:      player4.IsAdmin,
+			Teammates:    nil,
+		}
+
 		gamesResult = append(
 			gamesResult,
 			&model.Game{
-				ID:        		game.ID,
-				Player1:   		game.Player1,
-				Player2:   		game.Player2,
-				Player3:   		game.Player3,
-				Player4:   		game.Player4,
-				Score12:   		game.Score12,
-				Score34:   		game.Score34,
-				CreatedBy: 		game.CreatedBy,
-				DeltaPoints:	game.DeltaPoints,
+				ID:          game.ID,
+				Player1:     player1Model,
+				Player2:     player2Model,
+				Player3:     player3Model,
+				Player4:     player4Model,
+				Score12:     game.Score12,
+				Score34:     game.Score34,
+				CreatedBy:   game.CreatedBy,
+				DeltaPoints: game.DeltaPoints,
 			},
 		)
 	}

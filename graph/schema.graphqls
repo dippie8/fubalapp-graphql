@@ -1,9 +1,9 @@
 type Game {
   id: ID!
-  player1: String!
-  player2: String!
-  player3: String!
-  player4: String!
+  player1: Player!
+  player2: Player!
+  player3: Player!
+  player4: Player!
   score12: Int!
   score34: Int!
   createdBy: String!
