@@ -35,6 +35,7 @@ type Standing {
   win: Int!
   played: Int!
   elo: Int!
+  color: String!
 }
 
 type Query {

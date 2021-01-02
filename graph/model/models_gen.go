@@ -58,6 +58,7 @@ type Standing struct {
 	Win      int    `json:"win"`
 	Played   int    `json:"played"`
 	Elo      int    `json:"elo"`
+	Color    string `json:"color"`
 }
 
 type Teammate struct {

@@ -37,7 +37,6 @@ func (r *mutationResolver) CreateGame(ctx context.Context, input model.NewGame) 
 	game.CreatedBy = user.Username
 	id, delta := game.Save()
 
-
 	return &model.Game{
 		ID:          id,
 		Player1:     &model.Player{Username: game.Player1},
@@ -252,6 +251,10 @@ func (r *queryResolver) Standings(ctx context.Context) ([]*model.Standing, error
 	standingList := standings.GetAll()
 
 	for _, standing := range standingList {
+
+		player, _ := players.Get(standing.Username)
+		color := player.Color
+
 		standingResult = append(
 			standingResult,
 			&model.Standing{
@@ -259,6 +262,7 @@ func (r *queryResolver) Standings(ctx context.Context) ([]*model.Standing, error
 				Win:      standing.Win,
 				Played:   standing.Played,
 				Elo:      standing.Elo,
+				Color:    color,
 			},
 		)
 	}
