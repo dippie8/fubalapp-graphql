@@ -4,7 +4,7 @@ jobs:
   build:
     machine:
       enabled: true
-    working_directory: /usr/local/go/src/fubalapp-graphql
+    working_directory: /usr/local/go/src/
     steps:
       - run:
           name: provaaaa
