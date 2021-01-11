@@ -4,15 +4,15 @@ jobs:
   build:
     machine:
       enabled: true
-    working_directory: /usr/local/go/src/
     steps:
       - add_ssh_keys:
           fingerprints:
             - "b9:70:04:09:2b:99:6c:80:a1:94:e8:36:6b:ca:d6:da"
       - run:
-        name: provaaaa
-        command: |
-          ssh $SSH_USER@$SSH_HOST "echo ciaoooo $USER"
+          name: provaaaa
+          working_directory: /usr/local/go/src/
+          command: |
+            ssh $SSH_USER@$SSH_HOST "echo ciaoooo $USER"
       - run:
           name: Build
           command: |
