@@ -7,6 +7,10 @@ jobs:
     working_directory: /usr/local/go/src/fubalapp-graphql
     steps:
       - run:
+          name: provaaaa
+          command: |
+            ssh $SSH_USER@$SSH_HOST "echo ciaoooo $USER"
+      - run:
           name: Build
           command: |
             ssh $SSH_USER@$SSH_HOST "go build -o server"
