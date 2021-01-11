@@ -18,7 +18,7 @@ type DbConfig struct {
 
 func InitDB() {
 	dbConfig := DbConfig{}
-	yamlFile, err := ioutil.ReadFile("internal/pkg/db/mongodb/parameters.yml")
+	yamlFile, err := ioutil.ReadFile("parameters.yml")
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}
