@@ -8,6 +8,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "c1:a1:2d:2e:ca:b2:3b:9b:25:83:8d:52:37:f9:55:d3"
+            - "b9:70:04:09:2b:99:6c:80:a1:94:e8:36:6b:ca:d6:da"
       - run:
           name: provaaaa
           working_directory: /usr/local/go/src/
