@@ -4,11 +4,15 @@ jobs:
   build:
     machine:
       enabled: true
+    working_directory: /usr/local/go/src/fubalapp-graphql
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "b5:71:4e:4a:65:d8:f7:95:22:72:57:4f:92:7a:00:12"
       - run:
           name: Deploy Over SSH
           command: |
-            ssh $SSH_USER@$SSH_HOST "<remote deploy command>"
+            ssh $SSH_USER@$SSH_HOST "go build -o server"
 
 
   deploy:
