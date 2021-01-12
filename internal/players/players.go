@@ -308,7 +308,12 @@ func Get(username string) (*Player, error) {
 
 func GetAll() []*Player {
 	collection := database.Db.Database("qlsr").Collection("players")
-	cursor, err := collection.Find(context.TODO(), bson.D{})
+
+	filter := bson.M{}
+	findOptions := options.Find()
+	findOptions.SetSort(bson.D{{"goldmedals", -1}, {"silvermedals", -1}, {"bronzemedals", -1}})
+
+	cursor, err := collection.Find(context.TODO(), filter, findOptions)
 	var players []*Player
 
 	if err != nil {
