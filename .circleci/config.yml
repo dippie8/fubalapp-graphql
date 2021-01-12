@@ -17,7 +17,7 @@ jobs:
     #### expecting it in the form of
     ####   /go/src/github.com/circleci/go-tool
     ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/dippie8/fubalapp-graphql
+    working_directory: /go/src/fubalapp-graphql
     steps:
       - checkout
       - run: pwd
@@ -26,9 +26,8 @@ jobs:
           fingerprints:
             - "62:57:9d:cc:d0:08:68:f0:a0:d1:15:3f:1f:71:98:09"
       # specify any bash command here prefixed with `run: `
-      - run: go get -v -t -d ./...
+      - run: go get
       - run: go build -o server
-      - run: ./server
 
 
 
