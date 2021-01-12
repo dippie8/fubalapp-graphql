@@ -8,6 +8,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "62:57:9d:cc:d0:08:68:f0:a0:d1:15:3f:1f:71:98:09"
+      - checkout
       - run:
           name: Build
           working_directory: /usr/local/go/src/
