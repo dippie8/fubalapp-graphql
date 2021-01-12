@@ -9,20 +9,17 @@ jobs:
           fingerprints:
             - "62:57:9d:cc:d0:08:68:f0:a0:d1:15:3f:1f:71:98:09"
       - run:
-          name: provaaaa
+          name: Build
           working_directory: /usr/local/go/src/
           command: |
-            ssh $SSH_USER@$SSH_HOST "echo ciaoooo $USER"
-      - run:
-          name: Build
-          command: |
-            ssh $SSH_USER@$SSH_HOST "go build -o server"
+            ssh $SSH_USER@$SSH_HOST "/usr/local/go/bin/go build -o server"
   deploy:
     machine:
       enabled: true
     steps:
       - run:
           name: Deploy Over SSH
+          working_directory: /usr/local/go/src/
           command: |
             ssh $SSH_USER@$SSH_HOST "<remote deploy command>"
 
