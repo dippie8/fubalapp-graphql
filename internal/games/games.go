@@ -90,9 +90,9 @@ func Get(n int64, p string) []*Game {
 	findOptions := options.Find()
 
 	if n != 0 {
-		findOptions.SetSort(bson.D{{"_id", -1}}).SetLimit(n)
+		findOptions.SetSort(bson.D{{"_id", 1}}).SetLimit(n)
 	} else {
-		findOptions.SetSort(bson.D{{"_id", -1}})
+		findOptions.SetSort(bson.D{{"_id", 1}})
 	}
 	if p != "" {
 		//opzione filtro su giocatore
