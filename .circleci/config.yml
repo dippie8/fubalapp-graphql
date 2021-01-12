@@ -1,37 +1,67 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2
-
 jobs:
   build:
-    machine:
-      enabled: true
+    docker:
+      # specify the version
+      - image: circleci/golang:1.9
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    #### TEMPLATE_NOTE: go expects specific checkout path representing url
+    #### expecting it in the form of
+    ####   /go/src/github.com/circleci/go-tool
+    ####   /go/src/bitbucket.org/circleci/go-tool
+    working_directory: /go/src/github.com/dippie8/fubalapp-graphql
     steps:
+      - checkout
       - add_ssh_keys:
           fingerprints:
             - "62:57:9d:cc:d0:08:68:f0:a0:d1:15:3f:1f:71:98:09"
-      - checkout
-      - run:
-          name: Build
-          working_directory: /usr/local/go/src/
-          command: |
-            ssh $SSH_USER@$SSH_HOST "/usr/local/go/bin/go build -o server"
-  deploy:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Deploy Over SSH
-          working_directory: /usr/local/go/src/
-          command: |
-            ssh $SSH_USER@$SSH_HOST "<remote deploy command>"
+      # specify any bash command here prefixed with `run: `
+      - run: go get -v -t -d ./...
+      - run: go build -o server
+      - run: ./server
 
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build # only deploy once build job has completed
-          filters:
-            branches:
-              only: master # only deploy on the master branch
+
+
+#version: 2
+#
+#jobs:
+#  build:
+#    machine:
+#      enabled: true
+#    steps:
+#      - add_ssh_keys:
+#          fingerprints:
+#            - "62:57:9d:cc:d0:08:68:f0:a0:d1:15:3f:1f:71:98:09"
+#      - run:
+#          name: Build
+#          command: |
+#            ssh $SSH_USER@$SSH_HOST "/home/ubuntu/build"
+#  deploy:
+#    machine:
+#      enabled: true
+#    steps:
+#      - run:
+#          name: Deploy Over SSH
+#          working_directory: /usr/local/go/src/
+#          command: |
+#            ssh $SSH_USER@$SSH_HOST "/usr/local/go/src/fubalapp-graphql/server"
+#
+#workflows:
+#  version: 2
+#  build-and-deploy:
+#    jobs:
+#      - build
+#      - deploy:
+#          requires:
+#            - build # only deploy once build job has completed
+#          filters:
+#            branches:
+#              only: master # only deploy on the master branch
