@@ -19,11 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="86ee0183-2e3a-4901-bf01-bca680b8a689" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/games/games.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/games/games.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/players/players.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/players/players.go" afterDir="false" />
-    </list>
+    <list default="true" id="86ee0183-2e3a-4901-bf01-bca680b8a689" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
