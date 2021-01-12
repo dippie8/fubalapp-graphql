@@ -20,6 +20,10 @@ jobs:
           name: Build
           command: go build -o server
       - run:
+          name: Add host to known hosts
+          command: ssh-keyscan $SSH_HOST >> $HOME/.ssh/known_hosts
+
+      - run:
           name: Stop service
           command: |
             ssh $SSH_USER@$SSH_HOST "sudo systemctl stop fubalapp.service"
