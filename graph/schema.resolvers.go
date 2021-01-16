@@ -25,7 +25,7 @@ func (r *mutationResolver) CreateGame(ctx context.Context, input model.NewGame) 
 	}
 
 	var game games.Game
-	dt := time.Now()
+	dt := time.Now().Add(time.Hour * time.Duration(1))
 
 	game.ID = dt.String()
 	game.Score12 = input.Score12
