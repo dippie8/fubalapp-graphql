@@ -32,6 +32,6 @@ jobs:
           command: |
             scp server $SSH_USER@$SSH_HOST:/home/ubuntu/fubalapp
       - run:
-          name: Restaer service
+          name: Restart service
           command: |
             ssh $SSH_USER@$SSH_HOST "sudo systemctl restart fubalapp.service"
