@@ -19,7 +19,7 @@ func GenerateToken(username string) (string, error) {
 	/* Set token claims */
 	claims["username"] = username
 	//claims["exp"] = time.Now().Add(time.Hour * 24 * 30).Unix()
-	claims["exp"] = time.Now().Add(time.Second * 20).Unix()
+	claims["exp"] = time.Now().Add(time.Minute * 10).Unix()
 	tokenString, err := token.SignedString(SecretKey)
 	if err != nil {
 		log.Fatal("Error in Generating key")
