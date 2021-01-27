@@ -13,9 +13,9 @@ import (
 )
 
 type User struct {
-	ID			string `bson:"_id"`
-	Username	string `json:"name"`
-	Password	string `json:"password"`
+	ID       string `bson:"_id"`
+	Username string `json:"name"`
+	Password string `json:"password"`
 }
 
 func (user *User) Create() error {

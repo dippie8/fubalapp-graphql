@@ -13,15 +13,15 @@ import (
 
 // #1
 type Game struct {
-	ID      	string 	`bson:"_id"`
-	Player1 	string	`json:"player1"`
-	Player2 	string	`json:"player2"`
-	Player3 	string	`json:"player3"`
-	Player4 	string	`json:"player4"`
-	Score12 	int    	`json:"score12"`
-	Score34 	int    	`json:"score34"`
-	CreatedBy	string	`json:"createdBy"`
-	DeltaPoints int		`json:"deltaPoints"`
+	ID          string `bson:"_id"`
+	Player1     string `json:"player1"`
+	Player2     string `json:"player2"`
+	Player3     string `json:"player3"`
+	Player4     string `json:"player4"`
+	Score12     int    `json:"score12"`
+	Score34     int    `json:"score34"`
+	CreatedBy   string `json:"createdBy"`
+	DeltaPoints int    `json:"deltaPoints"`
 }
 
 func (game Game) Save() (string, int) {
@@ -98,10 +98,10 @@ func Get(n int64, p string) []*Game {
 		//opzione filtro su giocatore
 		filter = bson.M{
 			"$or": []bson.M{
-				bson.M{"player1": p},
-				bson.M{"player2": p},
-				bson.M{"player3": p},
-				bson.M{"player4": p},
+				{"player1": p},
+				{"player2": p},
+				{"player3": p},
+				{"player4": p},
 			},
 		}
 	}

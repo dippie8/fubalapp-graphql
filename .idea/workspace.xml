@@ -27,6 +27,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="86ee0183-2e3a-4901-bf01-bca680b8a689" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph/model/models_gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/graph/model/models_gen.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/auth/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/auth/middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/games/games.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/games/games.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/db/mongodb/mongodb.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/db/mongodb/mongodb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/players/players.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/players/players.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/standings/standings.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/standings/standings.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/users/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/users/errors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/users/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/users/users.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/jwt/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/jwt/jwt.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +74,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../todoApi" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />

@@ -7,15 +7,15 @@ type DeleteGame struct {
 }
 
 type Game struct {
-	ID        	string `bson:"_id"`
+	ID          string  `bson:"_id"`
 	Player1     *Player `json:"player1"`
 	Player2     *Player `json:"player2"`
 	Player3     *Player `json:"player3"`
 	Player4     *Player `json:"player4"`
-	Score12     int    `json:"score12"`
-	Score34     int    `json:"score34"`
-	CreatedBy   string `json:"createdBy"`
-	DeltaPoints int    `json:"deltaPoints"`
+	Score12     int     `json:"score12"`
+	Score34     int     `json:"score34"`
+	CreatedBy   string  `json:"createdBy"`
+	DeltaPoints int     `json:"deltaPoints"`
 }
 
 type Login struct {

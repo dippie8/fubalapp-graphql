@@ -10,18 +10,18 @@ import (
 )
 
 type Standing struct {
-	Username 	string	`bson:"_id"`
-	Win 		int		`json:"win"`
-	Played		int		`json:"played"`
-	Elo			int		`json:"elo"`
+	Username string `bson:"_id"`
+	Win      int    `json:"win"`
+	Played   int    `json:"played"`
+	Elo      int    `json:"elo"`
 }
 
 func SubscribeUser(username string) (string, error) {
 	var standing = &Standing{
 		Username: username,
-		Win: 0,
-		Played: 0,
-		Elo: 100,
+		Win:      0,
+		Played:   0,
+		Elo:      100,
 	}
 	collection := database.Db.Database("qlsr").Collection("standings")
 	_, err := collection.InsertOne(context.TODO(), standing)
@@ -29,7 +29,7 @@ func SubscribeUser(username string) (string, error) {
 	return username, err
 }
 
-func Update (winners [2]string, losers [2]string) (int, error) {
+func Update(winners [2]string, losers [2]string) (int, error) {
 
 	var winnersWinProbability float64
 	const k = 10
@@ -46,9 +46,9 @@ func Update (winners [2]string, losers [2]string) (int, error) {
 	elo2 := math.Round(float64((l1.Elo + l2.Elo) / 2))
 
 	if elo1 < elo2 {
-		winnersWinProbability = elo1/elo2 * 0.5
+		winnersWinProbability = elo1 / elo2 * 0.5
 	} else {
-		winnersWinProbability = 1 - (elo2/elo1 * 0.5)
+		winnersWinProbability = 1 - (elo2 / elo1 * 0.5)
 	}
 
 	delta := int(math.Round((1 - winnersWinProbability) * k))
@@ -86,7 +86,6 @@ func Update (winners [2]string, losers [2]string) (int, error) {
 
 	return delta, err
 }
-
 
 func Get(username string) (*Standing, error) {
 	collection := database.Db.Database("qlsr").Collection("standings")

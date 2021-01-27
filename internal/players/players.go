@@ -10,34 +10,34 @@ import (
 
 type Teammate struct {
 	Username      string `json:"username"`
-	GamesTogether int	 `json:"gamesTogether"`
-	WinTogether   int	 `json:"winTogether"`
-	GamesAgainst  int	 `json:"gamesAgainst"`
-	WinAgainst    int	 `json:"winAgainst"`
+	GamesTogether int    `json:"gamesTogether"`
+	WinTogether   int    `json:"winTogether"`
+	GamesAgainst  int    `json:"gamesAgainst"`
+	WinAgainst    int    `json:"winAgainst"`
 }
 
 type Player struct {
-	Username 		string		`json:"username" bson:"_id"`
-	CareerWin 		int			`json:"careerWin"`
-	CareerPlayed 	int			`json:"careerPlayed"`
-	GoldMedals 		int			`json:"goldMedals"`
-	SilverMedals 	int			`json:"silverMedals"`
-	BronzeMedals 	int			`json:"bronzeMedals"`
-	Color 			string		`json:"color"`
-	IsAdmin 		int			`json:"isAdmin"`
-	Teammates 		[]*Teammate	`json:"teammates"`
+	Username     string      `json:"username" bson:"_id"`
+	CareerWin    int         `json:"careerWin"`
+	CareerPlayed int         `json:"careerPlayed"`
+	GoldMedals   int         `json:"goldMedals"`
+	SilverMedals int         `json:"silverMedals"`
+	BronzeMedals int         `json:"bronzeMedals"`
+	Color        string      `json:"color"`
+	IsAdmin      int         `json:"isAdmin"`
+	Teammates    []*Teammate `json:"teammates"`
 }
 
-func CreateFromUsername (username string) (string, error) {
+func CreateFromUsername(username string) (string, error) {
 	var player = &Player{
-		Username: username,
-		CareerWin: 0,
+		Username:     username,
+		CareerWin:    0,
 		CareerPlayed: 0,
-		GoldMedals: 0,
+		GoldMedals:   0,
 		SilverMedals: 0,
-		Color: "none",
-		IsAdmin: 0,
-		Teammates: []*Teammate{},
+		Color:        "none",
+		IsAdmin:      0,
+		Teammates:    []*Teammate{},
 	}
 	collection := database.Db.Database("qlsr").Collection("players")
 	_, err := collection.InsertOne(context.TODO(), player)
@@ -45,8 +45,7 @@ func CreateFromUsername (username string) (string, error) {
 	return player.Username, err
 }
 
-
-func Update (winners [2]string, losers [2]string) error {
+func Update(winners [2]string, losers [2]string) error {
 	collection := database.Db.Database("qlsr").Collection("players")
 	addWin := func(usr string) error {
 		_, err := collection.UpdateOne(
@@ -76,7 +75,7 @@ func Update (winners [2]string, losers [2]string) error {
 
 	winner1, err := Get(winners[0])
 	winner2, err := Get(winners[1])
-	loser1, err	:= Get(losers[0])
+	loser1, err := Get(losers[0])
 	loser2, err := Get(losers[1])
 	if err != nil {
 		log.Panic(err)
@@ -98,8 +97,8 @@ func (player Player) updateWinner(teammate, opponent1, opponent2 *Player) error 
 	foundOpponent2 := false
 	collection := database.Db.Database("qlsr").Collection("players")
 
-	for _, tm := range player.Teammates{
-		if tm.Username == teammate.Username{
+	for _, tm := range player.Teammates {
+		if tm.Username == teammate.Username {
 			foundTeammate = true
 			winnerTeammates = append(
 				winnerTeammates,
@@ -123,7 +122,7 @@ func (player Player) updateWinner(teammate, opponent1, opponent2 *Player) error 
 					WinAgainst:    tm.WinAgainst + 1,
 				},
 			)
-		} else if tm.Username == opponent2.Username{
+		} else if tm.Username == opponent2.Username {
 			foundOpponent2 = true
 			winnerTeammates = append(
 				winnerTeammates,
@@ -201,8 +200,8 @@ func (player Player) updateLoser(teammate, opponent1, opponent2 *Player) error {
 	foundOpponent2 := false
 	collection := database.Db.Database("qlsr").Collection("players")
 
-	for _, tm := range player.Teammates{
-		if tm.Username == teammate.Username{
+	for _, tm := range player.Teammates {
+		if tm.Username == teammate.Username {
 			foundTeammate = true
 			loserTeammates = append(
 				loserTeammates,
@@ -226,7 +225,7 @@ func (player Player) updateLoser(teammate, opponent1, opponent2 *Player) error {
 					WinAgainst:    tm.WinAgainst,
 				},
 			)
-		} else if tm.Username == opponent2.Username{
+		} else if tm.Username == opponent2.Username {
 			foundOpponent2 = true
 			loserTeammates = append(
 				loserTeammates,
@@ -296,7 +295,6 @@ func (player Player) updateLoser(teammate, opponent1, opponent2 *Player) error {
 	)
 	return err
 }
-
 
 func Get(username string) (*Player, error) {
 	collection := database.Db.Database("qlsr").Collection("players")
