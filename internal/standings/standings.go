@@ -9,6 +9,7 @@ import (
 	"math"
 )
 
+// Standing data about a single player
 type Standing struct {
 	Username string `bson:"_id"`
 	Win      int    `json:"win"`
@@ -16,6 +17,7 @@ type Standing struct {
 	Elo      int    `json:"elo"`
 }
 
+// SubscribeUser creates a line in standings for a new user
 func SubscribeUser(username string) (string, error) {
 	var standing = &Standing{
 		Username: username,
@@ -29,15 +31,16 @@ func SubscribeUser(username string) (string, error) {
 	return username, err
 }
 
+// Update standings when a new game is added
 func Update(winners [2]string, losers [2]string) (int, error) {
 
 	var winnersWinProbability float64
 	const k = 10
 
-	w1, err := Get(winners[0])
-	w2, err := Get(winners[1])
-	l1, err := Get(losers[0])
-	l2, err := Get(losers[1])
+	w1, err := get(winners[0])
+	w2, err := get(winners[1])
+	l1, err := get(losers[0])
+	l2, err := get(losers[1])
 	if err != nil {
 		log.Panic(err)
 	}
@@ -87,7 +90,7 @@ func Update(winners [2]string, losers [2]string) (int, error) {
 	return delta, err
 }
 
-func Get(username string) (*Standing, error) {
+func get(username string) (*Standing, error) {
 	collection := database.Db.Database("qlsr").Collection("standings")
 	filter := bson.M{"_id": username}
 	var standing *Standing
@@ -95,6 +98,7 @@ func Get(username string) (*Standing, error) {
 	return standing, err
 }
 
+// GetAll returns the actual standings
 func GetAll() []*Standing {
 	collection := database.Db.Database("qlsr").Collection("standings")
 	filter := bson.D{}

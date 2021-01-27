@@ -14,6 +14,7 @@ type contextKey struct {
 	name string
 }
 
+// Middleware enables authorization of API calls
 func Middleware() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -35,7 +36,7 @@ func Middleware() func(http.Handler) http.Handler {
 
 			// create user and check if user exists in db
 			user := users.User{Username: username}
-			id, err := users.GetUserIdByUsername(username)
+			id, err := users.GetUserIDByUsername(username)
 			if err != nil {
 				next.ServeHTTP(w, r)
 				return

@@ -10,12 +10,15 @@ import (
 	"time"
 )
 
+// Db is a pointer to the mongo client
 var Db *mongo.Client
 
+// DbConfig contains the endpoint of the mongodb cluster
 type DbConfig struct {
-	Uri string `yaml:"Uri"`
+	URI string `yaml:"Uri"`
 }
 
+// InitDB initializes the connection to the database
 func InitDB() {
 	dbConfig := DbConfig{}
 	yamlFile, err := ioutil.ReadFile("parameters.yml")
@@ -24,7 +27,7 @@ func InitDB() {
 	}
 	err = yaml.Unmarshal(yamlFile, &dbConfig)
 
-	client, err := mongo.NewClient(options.Client().ApplyURI(dbConfig.Uri))
+	client, err := mongo.NewClient(options.Client().ApplyURI(dbConfig.URI))
 	if err != nil {
 		log.Fatal(err)
 	}

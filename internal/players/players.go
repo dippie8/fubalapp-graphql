@@ -8,6 +8,7 @@ import (
 	"log"
 )
 
+// Teammate data
 type Teammate struct {
 	Username      string `json:"username"`
 	GamesTogether int    `json:"gamesTogether"`
@@ -16,6 +17,7 @@ type Teammate struct {
 	WinAgainst    int    `json:"winAgainst"`
 }
 
+//Player data
 type Player struct {
 	Username     string      `json:"username" bson:"_id"`
 	CareerWin    int         `json:"careerWin"`
@@ -28,6 +30,7 @@ type Player struct {
 	Teammates    []*Teammate `json:"teammates"`
 }
 
+// CreateFromUsername creates a player starting from a username
 func CreateFromUsername(username string) (string, error) {
 	var player = &Player{
 		Username:     username,
@@ -45,6 +48,7 @@ func CreateFromUsername(username string) (string, error) {
 	return player.Username, err
 }
 
+// Update data about users when new games are played
 func Update(winners [2]string, losers [2]string) error {
 	collection := database.Db.Database("qlsr").Collection("players")
 	addWin := func(usr string) error {
@@ -296,6 +300,7 @@ func (player Player) updateLoser(teammate, opponent1, opponent2 *Player) error {
 	return err
 }
 
+// Get data about a specific user
 func Get(username string) (*Player, error) {
 	collection := database.Db.Database("qlsr").Collection("players")
 	filter := bson.M{"_id": username}
@@ -304,6 +309,7 @@ func Get(username string) (*Player, error) {
 	return player, err
 }
 
+// GetAll return data about every player
 func GetAll() []*Player {
 	collection := database.Db.Database("qlsr").Collection("players")
 

@@ -12,12 +12,14 @@ import (
 	"log"
 )
 
+// User credentials
 type User struct {
 	ID       string `bson:"_id"`
 	Username string `json:"name"`
 	Password string `json:"password"`
 }
 
+// Create a new user
 func (user *User) Create() error {
 
 	hashedPassword, err := HashPassword(user.Password)
@@ -46,14 +48,14 @@ func HashPassword(password string) (string, error) {
 	return string(bytes), err
 }
 
-//CheckPassword hash compares raw password with it's hashed values
+//CheckPasswordHash compares raw password with it's hashed values
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
 
-//GetUserIdByUsername check if a user exists in database by given username
-func GetUserIdByUsername(username string) (string, error) {
+//GetUserIDByUsername check if a user exists in database by given username
+func GetUserIDByUsername(username string) (string, error) {
 	collection := database.Db.Database("qlsr").Collection("users")
 	filter := bson.M{"username": username}
 	count, err := collection.CountDocuments(context.TODO(), filter)
@@ -72,6 +74,7 @@ func GetUserIdByUsername(username string) (string, error) {
 	return user.ID, nil
 }
 
+// Authenticate authenticates a user
 func (user *User) Authenticate() bool {
 	var dbUser *User
 	collection := database.Db.Database("qlsr").Collection("users")

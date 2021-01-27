@@ -11,7 +11,7 @@ import (
 	"log"
 )
 
-// #1
+// Game includes all information about a single game
 type Game struct {
 	ID          string `bson:"_id"`
 	Player1     string `json:"player1"`
@@ -24,6 +24,7 @@ type Game struct {
 	DeltaPoints int    `json:"deltaPoints"`
 }
 
+// Save a Game to your database
 func (game Game) Save() (string, int) {
 	collection := database.Db.Database("qlsr").Collection("games")
 
@@ -59,6 +60,7 @@ func (game Game) Save() (string, int) {
 	return id, delta
 }
 
+// GetAll returns all games
 func GetAll() []*Game {
 	collection := database.Db.Database("qlsr").Collection("games")
 	findOptions := options.Find()
@@ -84,6 +86,8 @@ func GetAll() []*Game {
 	return games
 }
 
+// Get return n latest games where p plays.
+// if n is nil it will return all games, if p is nil there will be no filter about players
 func Get(n int64, p string) []*Game {
 	collection := database.Db.Database("qlsr").Collection("games")
 	filter := bson.M{}
