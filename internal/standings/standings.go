@@ -9,6 +9,10 @@ import (
 	"math"
 )
 
+const (
+	eloConstant = 10
+)
+
 // Standing data about a single player
 type Standing struct {
 	Username string `bson:"_id"`
@@ -35,7 +39,6 @@ func SubscribeUser(username string) (string, error) {
 func Update(winners [2]string, losers [2]string) (int, error) {
 
 	var winnersWinProbability float64
-	const k = 10
 
 	w1, err := get(winners[0])
 	w2, err := get(winners[1])
@@ -54,7 +57,7 @@ func Update(winners [2]string, losers [2]string) (int, error) {
 		winnersWinProbability = 1 - (elo2 / elo1 * 0.5)
 	}
 
-	delta := int(math.Round((1 - winnersWinProbability) * k))
+	delta := int(math.Round((1 - winnersWinProbability) * eloConstant))
 
 	collection := database.Db.Database("qlsr").Collection("standings")
 	addWin := func(usr string) error {
