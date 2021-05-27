@@ -7,10 +7,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"math"
+	"sort"
 )
 
 const (
 	eloConstant = 10
+	minGamesEligibility = 5
 )
 
 // Standing data about a single player
@@ -19,6 +21,42 @@ type Standing struct {
 	Win      int    `json:"win"`
 	Played   int    `json:"played"`
 	Elo      int    `json:"elo"`
+}
+
+type standingList []*Standing
+
+func (s standingList) Len() int {
+	return len(s)
+}
+
+func (s standingList) Less(i, j int) bool {
+
+	var iPerc, jPerc float32
+
+	if s[i].Played == 0 {
+		iPerc = 0
+	} else {
+		iPerc = float32(s[i].Win) / float32(s[i].Played)
+	}
+	if s[i].Played >= minGamesEligibility {
+		iPerc += 1
+	}
+
+	if s[j].Played == 0 {
+		jPerc = 0
+	} else {
+		jPerc = float32(s[j].Win) / float32(s[j].Played)
+	}
+	if s[j].Played >= minGamesEligibility {
+		jPerc += 1
+	}
+
+
+	return iPerc > jPerc
+}
+
+func (s standingList) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
 }
 
 // SubscribeUser creates a line in standings for a new user
@@ -105,6 +143,7 @@ func get(username string) (*Standing, error) {
 func GetAll() []*Standing {
 	collection := database.Db.Database("qlsr").Collection("standings")
 	filter := bson.D{}
+	// filter := bson.M{"played": {"$gte": 5}}
 	findOptions := options.Find()
 	findOptions.SetSort(bson.D{{"elo", -1}})
 	cursor, err := collection.Find(context.TODO(), filter, findOptions)
@@ -126,5 +165,8 @@ func GetAll() []*Standing {
 
 		standings = append(standings, s)
 	}
+
+	sort.Sort(standingList(standings))
+
 	return standings
 }
